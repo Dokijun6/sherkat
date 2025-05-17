@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: #0a3d62;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-code {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-specs {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .product-spec-item {
+            margin-bottom: 0.3rem;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0a3d62;
+            margin-bottom: 1rem;
+        }
+        
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #27ae60;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .buy-button:hover {
+            background-color: #219653;
+        }
+        
+        .consultation-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #0a3d62;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 100;
+        }
+        
+        .consultation-button:hover {
+            transform: scale(1.1);
+            background-color: #27ae60;
+        }
+        
+        .consultation-button i {
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                grid-gap: 1.5rem;
+            }
+            
+            .consultation-button {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Product Catalog</h1>
+    </header>
+    
+    <div class="container">
+        <div class="products-grid" id="productsContainer">
+            <!-- Products will be added here dynamically -->
+        </div>
+    </div>
+    
+    <a href="#" class="consultation-button" id="consultButton">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    
+    <script>
+        // Your WhatsApp number - REPLACE THIS WITH YOUR ACTUAL NUMBER
+        const whatsappNumber = '1234567890';
+        
+        // Sample product data - REPLACE WITH YOUR ACTUAL PRODUCTS
+        const products = [
+            {
+                id: 'P001',
+                name: 'Premium Widget',
+                image: '/api/placeholder/400/320',
+                price: '$49.99',
+                specs: [
+                    'High quality material',
+                    'Durable construction',
+                    '1 year warranty',
+                    'Available in multiple colors'
+                ]
+            },
+            {
+                id: 'P002',
+                name: 'Super Gadget',
+                image: '/api/placeholder/400/320',
+                price: '$29.99',
+                specs: [
+                    'Rechargeable battery',
+                    'Compact design',
+                    'Water resistant',
+                    'Smart features included'
+                ]
+            },
+            {
+                id: 'P003',
+                name: 'Deluxe Kit',
+                image: '/api/placeholder/400/320',
+                price: '$89.99',
+                specs: [
+                    'Complete set of tools',
+                    'Premium carrying case',
+                    'Professional grade',
+                    'Lifetime support'
+                ]
+            },
+            {
+                id: 'P004',
+                name: 'Essential Package',
+                image: '/api/placeholder/400/320',
+                price: '$39.99',
+                specs: [
+                    'Basic starter kit',
+                    'Easy to use',
+                    'Perfect for beginners',
+                    'Online tutorials included'
+                ]
+            },
+            {
+                id: 'P005',
+                name: 'Pro Solution',
+                image: '/api/placeholder/400/320',
+                price: '$129.99',
+                specs: [
+                    'Enterprise grade',
+                    'Advanced functionality',
+                    'Technical support',
+                    'Customizable options'
+                ]
+            },
+            {
+                id: 'P006',
+                name: 'Value Bundle',
+                image: '/api/placeholder/400/320',
+                price: '$59.99',
+                specs: [
+                    'Multiple items included',
+                    'Cost-effective solution',
+                    'Popular choice',
+                    'Satisfaction guaranteed'
+                ]
+            }
+        ];
+
+        // Function to create WhatsApp URL with product info
+        function createWhatsAppLink(productId, productName) {
+            const message = `Hi! I'm interested in purchasing ${productName} (Product Code: ${productId})`;
+            return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        }
+
+        // Function to render products
+        function renderProducts() {
+            const productsContainer = document.getElementById('productsContainer');
+            
+            products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.className = 'product-card';
+                
+                productElement.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-code">Product Code: ${product.id}</p>
+                        <div class="product-specs">
+                            ${product.specs.map(spec => `<div class="product-spec-item">• ${spec}</div>`).join('')}
+                        </div>
+                        <div class="product-price">${product.price}</div>
+                        <a href="${createWhatsAppLink(product.id, product.name)}" class="buy-button" target="_blank">
+                            <i class="fa-brands fa-whatsapp"></i> Buy Now
+                        </a>
+                    </div>
+                `;
+                
+                productsContainer.appendChild(productElement);
+            });
+        }
+
+        // Set up consultation button
+        function setupConsultationButton() {
+            const consultButton = document.getElementById('consultButton');
+            consultButton.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to consult about your products.")}`;
+            consultButton.target = '_blank';
+        }
+
+        // Initialize app
+        function initApp() {
+            renderProducts();
+            setupConsultationButton();
+        }
+
+        // Run initialization when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
